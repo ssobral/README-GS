@@ -23,7 +23,7 @@ Os requisitos para utilizar o código são mínimos. Sendo eles:
 
 - Ser funcionário de uma das estufas do projeto GREEN-HOUSE;
 - A estufa estar pronta para início de funcionamento;
-- Informações sobre o funcionamento da estufa, como dados sobre sementes disponíveis e calendário 
+- Informações sobre o funcionamento da estufa, como dados sobre sementes disponíveis e calendário;
 
 ## Dependências
 
@@ -31,5 +31,5 @@ As dependências do código consistem em:
 
 - Disponibilidade de um computador e/ou notebook para utilização do código;
 - Acesso do utilizador á terra, para análise do solo;
-- Disponiblidade de ferramentas para caso o código aponde a necessidade de alguma manutenção;
+- Disponiblidade de ferramentas para caso o código aponte a necessidade de alguma manutenção;
 
