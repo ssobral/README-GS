@@ -1,6 +1,7 @@
 # Readme - Python - Global Solutions #
 
 ## Integrantes:
+
 - Anna Soto RM550360
 - Danilo Urze RM99465
 - Lucas Sobral RM98188
@@ -16,6 +17,7 @@ Com isso em mente, o projeto GREEN-HOUSE possui como objetivo criar condições 
 ## Instruções de uso do código
 
 O código consta como um gerenciador disponível para os funcionários das estufas. Os quais poderão selecionar a melhor opção de plantio para cada tipo de solo, controlar datas de plantio e colheita, calcular o efeito do uso de fertilizantes na plantação e declarar irregularidades nas plantas.
+Basta iniciar o aplicativo e responder as perguntas, e automaticamente o código apontará opções de plantio para aquela determinada estufa, e previsão de coleta.
 
 ## Requisitos
 
