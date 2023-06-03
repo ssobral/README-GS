@@ -16,7 +16,7 @@ Com isso em mente, o projeto GREEN-HOUSE possui como objetivo criar condições 
 
 ## Instruções de uso do código
 
-O código consta como um gerenciador disponível para os funcionários das estufas. Os quais poderão selecionar a melhor opção de plantio para cada tipo de solo, controlar datas de plantio e colheita, calcular o efeito do uso de fertilizantes na plantação e declarar irregularidades nas plantas.
+O código consta como um gerenciador disponível para os funcionários das estufas. Os quais poderão selecionar a melhor opção de plantio para cada tipo de solo, controlar datas de plantio e colheita, calcular o efeito do uso de fertilizantes na plantação, declarar irregularidades nas plantas e distruibuir  funções de acordo com a quantidade de funcionários.
 Basta iniciar o aplicativo e responder as perguntas, e automaticamente o código apontará opções de plantio para aquela determinada estufa, e previsão de coleta.
 
 ## Requisitos
