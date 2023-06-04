@@ -24,6 +24,17 @@ Basta iniciar o aplicativo e responder as perguntas, e automaticamente o código
 O sistema arduino funciona a base de análises do ambiente com os sensores DHT11 e Sensor de Umidade do Solo. Ao ativar o arduino, os dados serão captados e terão seus status representados em LCD e em LED verde ou vermelha. Caso alguma dessas medidas estiver fora do ideal, além do aviso no LCD e a LED vermelha ativada, um buzzer se ativará, assim chamando a atenção dos funcionários.
 O sistema deverá estar ligado ao sistema de irrigação da estufa, visto que, caso a umidade do solo estiver baixa, a irrigação da plantação ativará.
 
+Itens para construção do arduino:
+- Arduino Uno;
+- 2 LEDs (Verde e Vermelha);
+- 3 Resistores de 220 Ω;
+- 1 DHT11;
+- 1 Potenciômetro;
+- 1 Buzzer;
+- 1 LCD;
+- 1 Sensor de Umidade do Solo;
+- Cabos conectores;
+
 ## Requisitos
 
 Os requisitos para utilizar o código são mínimos. Sendo eles:
