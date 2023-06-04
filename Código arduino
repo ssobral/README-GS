@@ -1,0 +1,214 @@
+#include <LiquidCrystal.h>
+
+//Declarando variáveis e pinos.
+int ledvermelho = 13;
+int ledverde = 11;
+int sensortemp = A0;
+float valorsensortemp;
+int celcius;
+float tensaotemp;
+int buzzer = 10;
+int valorSensorUmid;
+int valorUmid;
+int sensorUmidadeSolo = A3;
+int umidadeSolo;
+
+//Difinindo valores para o LCD
+LiquidCrystal lcd(7,6,5,4,3,2);
+
+//Declaração de saida/entrada de dados, velocidade de atualização do console e tamanho do LCD.
+void setup(){
+  Serial.begin(9600);
+  pinMode(ledvermelho,OUTPUT);
+  pinMode(ledverde,OUTPUT);
+  pinMode(buzzer,OUTPUT);
+  lcd.begin(16, 2);
+  lcd.setCursor(0, 0);
+}
+
+void loop(){
+  
+  //Leitura dos valores análogos e atribuições à variáveis.
+  valorsensortemp = analogRead(sensortemp);
+  valorSensorUmid = analogRead(A2);
+  umidadeSolo = analogRead(sensorUmidadeSolo);
+  
+  //Calculo para atribuições e aperfeiçoamento de variáveis.
+  tensaotemp = 5*valorsensortemp/1023;
+  celcius = (tensaotemp - 0.5) * 100;
+  valorUmid = map(valorSensorUmid, 0, 1023, 0, 100);
+  
+
+  
+  //Medidas apresentadas no console.
+  Serial.println("");
+  Serial.print("Tensao do sensor de temperatura: ");
+  Serial.print(tensaotemp);
+  Serial.println(" V");
+  
+  Serial.print("Temperatura: ");
+  Serial.print(celcius);
+  Serial.println(" C");
+  
+  Serial.print("Umidade: ");
+  Serial.print(valorUmid);
+  Serial.println("%");
+  
+  Serial.print("Umidade do solo: ");
+  Serial.print(umidadeSolo);
+  
+  
+  Serial.println("");
+  Serial.println("-------------------------------");
+  
+  /*SÉRIE DE IFs*/
+  /*Valores ideais*/
+  
+  //If para temperatura ideal entre 15°C e 30°C.
+  if (celcius >= 15 && celcius <=30){
+   digitalWrite(ledverde,HIGH);
+   digitalWrite(ledvermelho,LOW);
+   digitalWrite(buzzer,LOW);
+    
+   lcd.setCursor(0,0);
+   lcd.print("Temperatura: OK");
+   lcd.setCursor(0,1);
+   lcd.print("Temp. =");
+   lcd.setCursor(7,1);
+   lcd.print(celcius);
+   lcd.print("C");
+   delay(2000);
+   lcd.clear();
+  }
+  
+  //If para umidade ideal entre 50% e 70%.  
+  if (valorUmid >= 50 && valorUmid <=70){
+   digitalWrite(ledverde,HIGH);
+   digitalWrite(ledvermelho,LOW);
+   digitalWrite(buzzer,LOW);
+    
+   lcd.setCursor(0,0);
+   lcd.print("Umidade OK");
+   lcd.setCursor(0,1);
+   lcd.print("Umid. =");
+   lcd.print(valorUmid);
+   lcd.print("%");
+   delay(2000);
+   lcd.clear();
+  }
+  
+  //If para umidade do solo ideal maior que 550.
+  if (umidadeSolo>=550) {
+   digitalWrite(ledverde,HIGH);
+   digitalWrite(ledvermelho,LOW);
+   digitalWrite(buzzer,LOW);
+    
+   lcd.setCursor(0,0);
+   lcd.print("Umid. do solo OK");
+   lcd.setCursor(0,1);
+   lcd.print("Umid. solo =");
+   lcd.print(umidadeSolo);
+   delay(2000);
+   lcd.clear();
+  }
+  
+  /*Valores Baixos ou Médios*/ 
+  
+  //If para temperatura baixa, sendo menor que 15°C.
+  if (celcius < 15){
+   digitalWrite(ledvermelho,HIGH);
+   digitalWrite(ledverde,LOW);
+   digitalWrite(buzzer,HIGH);
+    
+   lcd.setCursor(0,0);
+   lcd.print("Temp. BAIXA");
+   lcd.setCursor(0,1);
+   lcd.print("Temp. =");
+   lcd.setCursor(7,1);
+   lcd.print(celcius);
+   lcd.print("C");
+   delay(2000);
+   lcd.clear();
+  }
+  
+  //If para umidade baixa, sendo menor que 50%.  
+  if (valorUmid < 50){
+   digitalWrite(ledvermelho,HIGH);
+   digitalWrite(ledverde,LOW);
+   digitalWrite(buzzer,HIGH); 
+   
+   lcd.setCursor(0,0);
+   lcd.print("Umidade BAIXA");
+   lcd.setCursor(0,1);
+   lcd.print("Umid. =");
+   lcd.print(valorUmid);
+   lcd.print("%");
+   delay(2000);
+   lcd.clear();
+  }
+  
+  //If para umidade do solo média, sendo entre 150 e 550.
+  if (umidadeSolo >= 150 && umidadeSolo <=550){
+   digitalWrite(ledvermelho,HIGH);
+   digitalWrite(ledverde,LOW);
+   digitalWrite(buzzer,HIGH); 
+   
+   lcd.setCursor(0,0);
+   lcd.print("Umid. Solo Média");
+   lcd.setCursor(0,1);
+   lcd.print("Umid. =");
+   lcd.print(umidadeSolo);
+   delay(2000);
+   lcd.clear();    
+  }
+  
+  //If para umidade do solo baixa, sendo menor que 150.
+  if (umidadeSolo < 150){
+   digitalWrite(ledvermelho,HIGH);
+   digitalWrite(ledverde,LOW);
+   digitalWrite(buzzer,HIGH); 
+   
+   lcd.setCursor(0,0);
+   lcd.print("Umid. Solo Baixa");
+   lcd.setCursor(0,1);
+   lcd.print("Ativar Irrigacao");
+   delay(2000);
+   lcd.clear();    
+  }
+  
+  /*Valores Altos*/
+  
+  //If para temperatura alta, sendo maior que 30°C.
+  if (celcius > 30){
+   digitalWrite(ledvermelho,HIGH);
+   digitalWrite(ledverde,LOW);
+   digitalWrite(buzzer,HIGH);
+    
+   lcd.setCursor(0,0);
+   lcd.print("Temp. ALTA");
+   lcd.setCursor(0,1);
+   lcd.print("Temp. =");
+   lcd.setCursor(7,1);
+   lcd.print(celcius);
+   lcd.print("C");
+   delay(2000);
+   lcd.clear();
+  }
+  
+  //If para umidade alta, sendo maior que 70%.
+  if (valorUmid > 70){
+   digitalWrite(ledvermelho,HIGH);
+   digitalWrite(ledverde,LOW);
+   digitalWrite(buzzer,HIGH); 
+   
+   lcd.setCursor(0,0);
+   lcd.print("Umidade ALTA");
+   lcd.setCursor(0,1);
+   lcd.print("Umid. =");
+   lcd.setCursor(7,1);
+   lcd.print(valorUmid);
+   lcd.print("%");
+   delay(2000);
+   lcd.clear();
+  }
+}
