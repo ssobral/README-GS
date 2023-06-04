@@ -1,0 +1,312 @@
+#Declaração de listas com as respostas das perguntas do código, para evitar funcionamento respostas inválidas.
+
+opçõesPrograma = ["1","2","3","4","5","6"]
+opçõesIrregularidades = ["1","2","3"]
+opçõesSoloSeco = ["Soja","Milho","Melão","Manga"]
+opçõesSoloIdeal = ["Feijão","Tomate","Cenoura","Alface","Pimentão","Batata","Espinafre"]
+opçõesSoloUmido = ["Arroz","Mirtilo","Cana-de-açucar"]
+opçõesResposta = ["Sim","Não"]
+
+#Declaração de listas manipuláveis utilizadas no decorrer do código, para utilização de PRINTS em FORs.
+
+cultivar = []
+dias = []
+datasDeProntidão = []
+
+#Criações de funções resposáveis por checar/facilitar o código.
+
+def checaNum (valor, palavra): #Checa se o dado é numérico
+    while not valor.isnumeric():
+        valor = input(f"O valor fornecido é inválido, digite um número inteiro.\n{palavra}:")
+    valor = int(valor)
+    return valor
+
+def checaOp (valor, opções, palavra): #Checa se o usuário responder de acordo com as opções apresentadas.
+    while not valor in opções:
+        print("\nA opção fornecida é inválida. Digite exatamente como nas opções seguintes:")
+        for i in range(len(opções)):
+            print(opções[i])
+        valor = input(f"{palavra}:")
+    return valor
+
+def limitador(requisito,limite,palavra): #Checa se o dado apresentado está dentro do limite. ex = dias com limite em 31
+    while requisito > limite:
+        requisito = input(f"O dado fornecido está fora do limite:{limite}.\n{palavra}:")
+        requisito = checaNum(requisito,palavra)
+    return requisito
+
+def totalData (dias): #Faz o cálculo de transformar um único número de dias em data dd/mm/aa.
+    mes = 0
+    ano = 0
+    while dias > 365:
+        dias -= 365
+        ano += 1
+    while dias > 30:
+        dias -= 30
+        mes += 1
+    dia = dias
+    return f"{dia}/{mes}/{ano}"
+
+
+#Apresentação do aplicativo e solicitação de dados necessários para fórmula.
+print("\nBem vindo ao aplicativo gerenciador de GREEN-HOUSE\n\nPara iniciarmos, vamos anotar as condições do solo.\nSepare porções de volume iguais de solo seco e umido.\n")
+massaSoloUmido = input("Digite o peso da porção de solo umido em gramas (NUMERO ARREDONDADO):")
+massaSoloUmido = checaNum(massaSoloUmido,"Massa do solo umido")
+
+massaSoloSeco = input("Digite o peso da porção de solo seco em gramas (NUMERO ARREDONDADO):")
+massaSoloSeco = checaNum(massaSoloSeco,"Massa do solo seco")
+
+umidadeSolo = ((massaSoloUmido - massaSoloSeco) / massaSoloSeco) * 100 #Fórmula para checar a umidade do solo.
+umidadeSolo = int(umidadeSolo)
+
+#Classificação do solo de acordo com a umidade.
+if umidadeSolo < 10:
+    solo = "seco"
+elif umidadeSolo < 30:
+    solo = "ideal"
+else:
+    solo = "úmido"
+
+print(f"\nO tipo de solo é: {solo}.")
+
+
+while True:
+    #Apresentação de opções de caminhos a percerror no código para o usuário.
+    print("\n\nO que deseja fazer?\n\n1 - Checar opções de plantio.\n2 - Registrar a data de plantio.\n3 - Declarar o uso de fertilizantes.\n4 - Declarar Irregularidade.\n5 - Distribuir funções.\n6 - Encerrar.")
+    opçao = input("\nEscolha uma das opções, sendo elas números de 1 a 6:")
+    opçao = checaOp(opçao,opçõesPrograma,"Opção")
+
+    #Início do processo de apresentação de sementes.
+    if opçao == "1":
+        #Solicitação da quantidade de tipos de sementes o funcionários plantará. Esse dado é utilizado em funções FOR para repetição correta.
+        qtd = input("Quantos tipos de sementes de cultivo pretende plantar?")
+        qtd = checaNum(qtd,"Quantidade")
+
+        for i in range(qtd):
+
+            #Apresentação dos tipos de semente para solo SECO.
+            if solo == "seco":
+                print("É recomendado plantar:\n\nSoja --- Pronto em 90 dias.\nMilho --- Pronto em 80 dias.\nMelão --- Pronto em 80 dias.\nManga --- Pronto em 120 dias.\n")
+                escolhaCultivo = input("\nO que pretende cultivar?")
+                escolhaCultivo = checaOp(escolhaCultivo,opçõesSoloSeco,"O que pretende cultivar?")
+                cultivar.append(escolhaCultivo) #Adiciona a semente escolhida na lista de frutas para plantar.
+
+                #Adiciona a quantidade de dias para o cultivo crescer na lista que será utilizada junto da semente escolhida.
+                if escolhaCultivo == "Soja":
+                    dias.append(90)
+                elif escolhaCultivo == "Milho" or escolhaCultivo == "Melão":
+                    dias.append(80)
+                else:
+                    dias.append(120)
+
+            #Repetição do processo de escolha de semente, adicionar a lista, junto do tempo de demora de sua preparação, para solo IDEAL.
+            elif solo == "ideal":
+                print("É recomendado plantar:\n\nFeijão --- Pronto em 90 dias.\nTomate --- Pronto em 60 dias.\nCenoura --- Pronto em 70 dias.\nAlface --- Pronto em 40 dias.\nPimentão --- Pronto em 70 dias.\nBatata --- Pronto em 120 dias.\nEspinafre --- Pronto em 50 dias.")
+                escolhaCultivo = input("\nO que pretende cultivar?")
+                escolhaCultivo = checaOp(escolhaCultivo,opçõesSoloIdeal,"O que pretende cultivar?")
+                cultivar.append(escolhaCultivo) #Adiciona a semente escolhida na lista de frutas para plantar.
+
+                # Adiciona a quantidade de dias para o cultivo crescer na lista que será utilizada junto da semente escolhida.
+                if escolhaCultivo == "Feijão":
+                    dias.append(90)
+                elif escolhaCultivo == "Tomate":
+                    dias.append(60)
+                elif escolhaCultivo == "Cenoura" or escolhaCultivo == "Pimentão":
+                    dias.append(70)
+                elif escolhaCultivo == "Alface":
+                    dias.append(40)
+                elif escolhaCultivo == "Batata":
+                    dias.append(120)
+                else:
+                    dias.append(50)
+
+            #Repetição do processo de escolha de semente, adicionar a lista, junto do tempo de demora de sua preparação, para solo ÚMIDO.
+            else:
+                print("É recomendado plantar:\n\nArroz --- Pronto em 120 dias.\nMirtilo --- Pronto em 730 dias.\nCana-de-açucar --- Pronto em 365 dias.")
+                escolhaCultivo = input("\nO que pretende cultivar?")
+                escolhaCultivo = checaOp(escolhaCultivo,opçõesSoloUmido,"O que pretende cultivar?")
+                cultivar.append(escolhaCultivo) #Adiciona a semente escolhida na lista de frutas para plantar.
+
+                # Adiciona a quantidade de dias para o cultivo crescer na lista que será utilizada junto da semente escolhida.
+                if escolhaCultivo == "Arroz":
+                    dias.append(120)
+                elif escolhaCultivo == "Mirtilo":
+                    dias.append(730)
+                else:
+                    dias.append(365)
+
+        #Solicitação da data em que a semente será plantada, para calculo de previsão de coleta.
+        diaPlantação = input("\nAgora, para prosseguir, digite o dia que a semente foi plantada:")
+        diaPlantação = checaNum(diaPlantação, "Dia")
+        diaPlantação = limitador(diaPlantação, 31, "Dia")
+
+        mesPlantação = input("Agora, digite o mês:")
+        mesPlantação = checaNum(mesPlantação, "Mês")
+        mesPlantação = limitador(mesPlantação, 12, "Mês")
+
+        anoPlantação = input("Para finalizar, digite o ano:")
+        anoPlantação = checaNum(anoPlantação, "Ano")
+
+        valorPlantação = (anoPlantação * 365) + (mesPlantação * 30) + diaPlantação #Transformação da data de plantio em número total de dias.
+
+        #Utilização do FOR para dizer todas as sementes escolhidas para plantio e previsão de coleta.
+        for i in range(len(cultivar)):
+            valorDaColheita = valorPlantação + dias[i]
+
+            #Mensagem com a previsão da coleta, utilizando a função de calculo.
+            print(f"\n{cultivar[i]} estará pronto para coleta aproximadamente em {totalData(valorDaColheita)}")
+
+    #Início do processo de registrar data do plantio de sementes.
+    if opçao == "2":
+        qtd = input("Digite a quantidade de tipos de sementes plantadas:")
+        qtd = checaNum(qtd,"Quantidade")
+
+        for i in range(qtd):
+            #Escolha da semente plantada e registro da previsão de coleta em solo SECO.
+            if solo == "seco":
+                print("Nosso sistema possui dados das seguintes sementes:\n\nSoja --- Pronto em 90 dias.\nMilho --- Pronto em 80 dias.\nMelão --- Pronto em 80 dias.\nManga --- Pronto em 120 dias.")
+                escolhaCultivo = input("\nDigite a semente plantada:")
+                escolhaCultivo = checaOp(escolhaCultivo,opçõesSoloSeco,"Digite a semente plantada:")
+                cultivar.append(escolhaCultivo)
+                if escolhaCultivo == "Soja":
+                    dias.append(90)
+                elif escolhaCultivo == "Milho" or escolhaCultivo == "Melão":
+                    dias.append(80)
+                else:
+                    dias.append(120)
+
+            #Escolha da semente plantada e registro da previsão de coleta em solo IDEAL.
+            elif solo == "ideal":
+                print("Nosso sistema possui dados das seguintes sementes:\n\nFeijão --- Pronto em 90 dias.\nTomate --- Pronto em 60 dias.\nCenoura --- Pronto em 70 dias.\nAlface --- Pronto em 40 dias.\nPimentão --- Pronto em 70 dias.\nBatata --- Pronto em 120 dias.\nEspinafre --- Pronto em 50 dias.")
+                escolhaCultivo = input("\nDigite a semente plantada:")
+                escolhaCultivo = checaOp(escolhaCultivo,opçõesSoloIdeal,"Digite a semente plantada")
+                cultivar.append(escolhaCultivo)
+                if escolhaCultivo == "Feijão":
+                    dias.append(90)
+                elif escolhaCultivo == "Tomate":
+                    dias.append(60)
+                elif escolhaCultivo == "Cenoura" or escolhaCultivo == "Pimentão":
+                    dias.append(70)
+                elif escolhaCultivo == "Alface":
+                    dias.append(40)
+                elif escolhaCultivo == "Batata":
+                    dias.append(120)
+                else:
+                    dias.append(50)
+
+            # Escolha da semente plantada e registro da previsão de coleta em solo ÚMIDO.
+            else:
+                print("Nosso sistema possui dados das seguintes sementes:\n\nArroz --- Pronto em 120 dias.\nMirtilo --- Pronto em 730 dias.\nCana-de-açucar --- Pronto em 365 dias.")
+                escolhaCultivo = input("\nDigite a semente plantada:")
+                escolhaCultivo = checaOp(escolhaCultivo,opçõesSoloUmido,"Digite a semente plantada:")
+                cultivar.append(escolhaCultivo)
+                if escolhaCultivo == "Arroz":
+                    dias.append(120)
+                elif escolhaCultivo == "Mirtilo":
+                    dias.append(730)
+                else:
+                    dias.append(365)
+
+
+        diaPlantação = input("\nAgora, para prosseguir, digite o dia que a semente foi plantada:")
+        diaPlantação = checaNum(diaPlantação, "Dia")
+        diaPlantação = limitador(diaPlantação, 31, "Dia")
+
+        mesPlantação = input("Agora, digite o mês:")
+        mesPlantação = checaNum(mesPlantação, "Mês")
+        mesPlantação = limitador(mesPlantação, 12, "Mês")
+
+        anoPlantação = input("Para finalizar, digite o ano:")
+        anoPlantação = checaNum(anoPlantação, "Ano")
+
+        valorPlantação = (anoPlantação * 365) + (mesPlantação * 30) + diaPlantação
+
+        for i in range(len(cultivar)):
+            valorDaColheita = valorPlantação + dias[i]
+
+            #Mensagem com a previsão da coleta, utilizando a função de calculo.
+            print(f"\n{cultivar[i]} estará pronto para coleta aproximadamente em {totalData(valorDaColheita)}")
+
+    #Início do sistema para calculo da previsão de coleta após o uso de fertilizantes.
+    if opçao == "3":
+        #Solicitação da previsão da coleta
+        diaPlantação = input("\nAgora, para prosseguir, digite o dia da previsão de coleta:")
+        diaPlantação = checaNum(diaPlantação, "Dia")
+        diaPlantação = limitador(diaPlantação, 31, "Dia")
+
+        mesPlantação = input("Agora, digite o mês:")
+        mesPlantação = checaNum(mesPlantação, "Mês")
+        mesPlantação = limitador(mesPlantação, 12, "Mês")
+
+        anoPlantação = input("Para finalizar, digite o ano:")
+        anoPlantação = checaNum(anoPlantação, "Ano")
+
+        #Calculo do número total de dias
+        valorPlantação = (anoPlantação * 365) + (mesPlantação * 30) + diaPlantação
+
+        diasRemovidos = input("\nAgora, digite quantos dias de espera o fertilizante economiza:")
+        diasRemovidos = checaNum(diasRemovidos,"Quantos dias o fertilizante economiza?")
+
+        #Calculo da quantidade total de dias menos os dias esconomizados pelo uso de fertilizantes.
+        valorDaColheita = valorPlantação - diasRemovidos
+
+        #Mensagem com a previsão da coleta com o uso de fertilizantes, utilizando a função de calculo.
+        print(f"A nova data prevista para coleta será {totalData(valorDaColheita)}")
+
+    #Início do sistema de análise de irregularidades.
+    if opçao == "4":
+
+        #Apresentação de possíveis irregularidades na plantação.
+        print("\nSelecione quais irregulares mais se assemelham:\n1 - Danos nas plantas, presença de insetos ou lesões nas raizes.\n2 - Plantas muchas, diferentes níveis de umidade no solo ou erosão do solo.\n3 - Crescimento desigual, com algumas plantas mais desenvolvidas que as outras.")
+        irregularidade = input("Digite a opção mais parecida:")
+        irregularidade = checaOp(irregularidade,opçõesIrregularidades,"Opção mais parecida")
+
+        #Seleção da opção mais próxima.
+        if irregularidade == "1":
+            print("\n\nO problema apresentado caracteriza a presença de pragas ou doenças nas plantas. É necessário tomar medidas adequadas de manejo e controle.")
+
+        if irregularidade == "2":
+            print("\n\nO problema apresentado caracteriza a presença de manejamento inadequado de água ou problemas de irrigação. Verifique se o sistema de irrigação está em funcionamento.")
+
+        if irregularidade == "3":
+            print("\n\nO problema apresentado caracteriza a falta de uniformidade de crescimento. Verifique se está ocorrendo disponibilidade desigual de água e fertilizantes, ou variações de terreno.")
+
+    #Início do sistema de distribuição de funções de acordo com a quantidade de funcionários.
+    if opçao == "5":
+        qtd = input("Digite quantos funcionários estão a disposição:") #Solicitação da quantidade de funcionários.
+        qtd = checaNum(qtd,"Quantidade") #Verificação
+
+        #Declaração de variáveis utilizadas no calculo de distribuição.
+        qtdFuncionários = qtd
+        funcionariosPlantação = 0
+        funcionariosManutenção = 0
+
+        #Calculo para sempre disponibilizar a maior parte dos funcionários para a plantação, sendo 50%.
+        while qtd > (qtdFuncionários/2):
+            funcionariosPlantação += 1
+            qtd -= 1
+
+        #Calculo para disponibilizar boa parte dos funcionários para a manutenção, sendo entre 25%-30%.
+        while qtd > (qtdFuncionários/4):
+            funcionariosManutenção += 1
+            qtd -= 1
+
+        #Declaração do resto dos funcionários para a limpeza.
+        funcionariosLimpeza = qtd
+
+        print(f"\nA distribuição de funções será:\n{funcionariosPlantação} responsáveis pelos cuidados com a plantação.\n{funcionariosManutenção} responsáveis pela manutenção dos sistemas de irrigação.\n{funcionariosLimpeza} responsáveis pela limpeza da estufa.")
+
+    #Sistema de encerramento caso o usuário escolha por encerrar o sistema.
+    if opçao == "6":
+        break
+
+    #Pergunta de continuidade do sistema.
+    resposta = input("\nDeseja reiniciar o sistema? (Sim/Não)")
+    resposta = checaOp(resposta,opçõesResposta,"Deseja reiniciar o sistema? (Sim/Não)")
+
+    #Sistema de encerramento.
+    if resposta == "Não":
+        break
+
+#Despedida.
+print("\nObrigado por utilizar o aplicativo gerenciador GREEN-HOUSE.\nAté a próxima.")
